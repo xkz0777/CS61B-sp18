@@ -81,6 +81,9 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
+        if (A == null) { // Add this to avoid null pointer exception
+            return B;
+        }
         IntList ptr = A;
         while (ptr.rest != null) {
             ptr = ptr.rest;
