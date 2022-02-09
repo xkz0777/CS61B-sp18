@@ -8,7 +8,7 @@ public class ArrayDeque<T> {
     /**
      * Creates an empty array deque.
      */
-    public ArrayDeque() {
+    ArrayDeque() {
         items = (T[]) new Object[8];
         front = back = 4;
     }
@@ -16,7 +16,7 @@ public class ArrayDeque<T> {
     /**
      * Creates a deep copy of OTHER.
      */
-    public ArrayDeque(ArrayDeque<T> other) {
+    ArrayDeque(ArrayDeque other) {
         items = (T[]) new Object[other.items.length];
         front = other.front;
         back = other.back;
@@ -37,7 +37,10 @@ public class ArrayDeque<T> {
      */
     public void addFirst(T item) {
         if (front == 0) {
-            resize(2 * items.length, 0, 1);
+            int l = items.length;
+            resize(2 * items.length, 0, l);
+            front += l;
+            back += l;
         }
         items[--front] = item;
     }
