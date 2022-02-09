@@ -79,8 +79,7 @@ public class ArrayDeque<T> {
         T first = items[front];
         items[front++] = null; // Don't loiter
         if (items.length >= 16 && 4 * size() < items.length) {
-            int newLength = items.length / 2;
-            resize(newLength, front, front - newLength);
+            resize(items.length / 2, front, items.length / 8);
         }
         return first;
     }
@@ -95,7 +94,7 @@ public class ArrayDeque<T> {
         T last = items[--back];
         items[back] = null;
         if (items.length >= 16 && 4 * size() < items.length) {
-            resize(items.length / 2, front, front);
+            resize(items.length / 2, front, items.length / 8);
         }
         return last;
     }
