@@ -78,28 +78,24 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
-    public static void copyResizeTest() {
-        System.out.println("Running copy/resize test.");
+    public static void resizeTest() {
+        System.out.println("Running resize test.");
         ArrayDeque<Integer> ad1 = new ArrayDeque<>();
         ad1.addFirst(1);
         ad1.addLast(3);
         ad1.addFirst(4);
 
-        ArrayDeque<Integer> ad2 = new ArrayDeque<>(ad1);
-        // should be 4 1 3
-        ad2.printDeque();
-
         // Test resize
         for (int i = 0; i < 16; ++i) {
-            ad2.addFirst(i);
+            ad1.addFirst(i);
         }
-        ad2.printDeque();
+        ad1.printDeque();
     }
 
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
         addIsEmptySizeTest();
         addRemoveTest();
-        copyResizeTest();
+        resizeTest();
     }
 }

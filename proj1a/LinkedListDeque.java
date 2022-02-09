@@ -27,17 +27,6 @@ public class LinkedListDeque<T> {
     }
 
     /**
-     * @source https://www.youtube.com/watch?v=JNroRiEG7U4&ab_channel=JoshHug
-     */
-    public LinkedListDeque(LinkedListDeque other) {
-        sentinel = new LinkedListNode(null, null, null);
-        size = other.size;
-        for (int i = 0; i < size; ++i) {
-            addLast((T) other.get(i));
-        }
-    }
-
-    /**
      * Adds an item of type T to the front of the deque.
      * `add` and `remove` operation must take constant time
      */
