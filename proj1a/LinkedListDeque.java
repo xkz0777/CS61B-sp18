@@ -1,13 +1,16 @@
 public class LinkedListDeque<T> {
+    /**
+     * Structure: sentinel => first <=> ... <=> last => sentinel
+     */
     private LinkedListNode sentinel;
     private int size;
 
     private class LinkedListNode {
-        public T item;
-        public LinkedListNode prev;
-        public LinkedListNode next;
+        private T item;
+        private LinkedListNode prev;
+        private LinkedListNode next;
 
-        public LinkedListNode(T f, LinkedListNode p, LinkedListNode n) {
+        LinkedListNode(T f, LinkedListNode p, LinkedListNode n) {
             item = f;
             prev = p;
             next = n;
@@ -109,7 +112,7 @@ public class LinkedListDeque<T> {
             return null;
         }
         LinkedListNode p = sentinel.next;
-        int i = 1;
+        int i = 0;
         while (i < index) {
             p = p.next;
             i++;
@@ -131,6 +134,6 @@ public class LinkedListDeque<T> {
     }
 
     public T getRecursive(int index) {
-        return getRecursiveHelper(sentinel, index);
+        return getRecursiveHelper(sentinel.next, index);
     }
 }

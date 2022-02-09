@@ -1,22 +1,26 @@
 public class ArrayDeque<T> {
-    T[] items;
-    int size;
+    private T[] items;
+    // In order to make addFirst take constant time.
+    private int front; // Pointing to the first element.
+    private int back; // Pointing to back of the last element.
+    // size = back - front
 
     /**
      * Creates an empty array deque.
      */
     public ArrayDeque() {
         items = (T[]) new Object[8];
-        size = 0;
+        front = back = 4;
     }
 
     /**
      * Creates a deep copy of OTHER.
      */
     public ArrayDeque(ArrayDeque<T> other) {
-        items = (T[]) new Object[other.size];
-        size = other.size;
-        System.arraycopy(other.items, 0, items, 0, size);
+        items = (T[]) new Object[other.items.length];
+        front = other.front;
+        back = other.back;
+        System.arraycopy(other.items, front, items, front, back - front);
     }
 
     /**
@@ -24,7 +28,7 @@ public class ArrayDeque<T> {
      */
     private void resize(int newSize, int srcPos, int destPos) {
         T[] a = (T[]) new Object[newSize];
-        System.arraycopy(items, srcPos, a, destPos, size);
+        System.arraycopy(items, srcPos, a, destPos, back - front);
         items = a;
     }
 
@@ -32,44 +36,41 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the front of the deque.
      */
     public void addFirst(T item) {
-        if (size == items.length) {
+        if (front == 0) {
             resize(2 * items.length, 0, 1);
-        } else {
-            System.arraycopy(items, 0, items, 1, size); // SRC and DEST can be the same array
         }
-        items[0] = item;
-        size++;
+        items[--front] = item;
     }
 
     /**
      * Adds an item of type T to the back of the deque.
      */
     public void addLast(T item) {
-        if (size == items.length) {
-            resize(2 * items.length, 0, 0);
+        if (back == items.length) {
+            resize(2 * items.length, front, front);
         }
-        items[size++] = item;
+        items[back++] = item;
     }
 
     /**
      * Returns true if deque is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return size == 0;
+        return front == back;
     }
 
     /**
      * Returns the number of items in the deque. (Constant time)
      */
     public int size() {
-        return size;
+        return back - front;
     }
 
     /**
      * Prints the items in the deque from first to last, separated by a space.
      */
     public void printDeque() {
-        for (int i = 0; i < size; ++i) {
+        for (int i = front; i < back; ++i) {
             System.out.print(items[i] + " ");
         }
         System.out.print("\n");
@@ -82,14 +83,11 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T first = items[0];
-        size--;
-        if (items.length >= 16 && 4 * size < items.length) {
-            resize(items.length / 2, 1, 0);
-        } else{
-            System.arraycopy(items, 1, items, 0, size);
+        T first = items[front];
+        items[front++] = null; // Don't loiter
+        if (items.length >= 16 && 4 * size() < items.length) {
+            resize(items.length / 2, front, front);
         }
-        items[size] = null; // Don't loiter
         return first;
     }
 
@@ -100,10 +98,10 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T last = items[--size];
-        items[size] = null;
-        if (items.length >= 16 && 4 * size < items.length) {
-            resize(items.length / 2, 0, 0);
+        T last = items[--back];
+        items[back] = null;
+        if (items.length >= 16 && 4 * size() < items.length) {
+            resize(items.length / 2, front, front);
         }
         return last;
     }
@@ -116,6 +114,6 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        return items[index];
+        return items[index + front];
     }
 }
