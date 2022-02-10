@@ -32,7 +32,8 @@ public class ArrayDeque<T> {
             front += l;
             back += l;
         }
-        items[--front] = item;
+        front--;
+        items[front] = item;
     }
 
     /**
@@ -42,7 +43,8 @@ public class ArrayDeque<T> {
         if (back == items.length) {
             resize(2 * items.length, front, front);
         }
-        items[back++] = item;
+        items[back] = item;
+        back++;
     }
 
     /**
@@ -70,6 +72,18 @@ public class ArrayDeque<T> {
     }
 
     /**
+     * Helper method for remove.
+     */
+    private void checkSizeDown() {
+        if (items.length >= 16 && 4 * size() < items.length) {
+            int newLength = items.length / 2;
+            resize(newLength, front, newLength / 4);
+            back += (newLength / 4 - front);
+            front = newLength / 4;
+        }
+    }
+
+    /**
      * Removes and returns the item at the front of the deque. If no such item exists, returns null.
      */
     public T removeFirst() {
@@ -77,10 +91,9 @@ public class ArrayDeque<T> {
             return null;
         }
         T first = items[front];
-        items[front++] = null; // Don't loiter
-        if (items.length >= 16 && 4 * size() < items.length) {
-            resize(items.length / 2, front, items.length / 8);
-        }
+        items[front] = null; // Don't loiter
+        front++;
+        checkSizeDown();
         return first;
     }
 
@@ -91,11 +104,10 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T last = items[--back];
+        T last = items[back - 1];
+        back--;
         items[back] = null;
-        if (items.length >= 16 && 4 * size() < items.length) {
-            resize(items.length / 2, front, items.length / 8);
-        }
+        checkSizeDown();
         return last;
     }
 
