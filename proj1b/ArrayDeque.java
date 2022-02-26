@@ -1,4 +1,4 @@
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     // In order to make addFirst take constant time.
     private int front; // Pointing to the first element.
@@ -25,6 +25,7 @@ public class ArrayDeque<T> {
     /**
      * Adds an item of type T to the front of the deque.
      */
+    @Override
     public void addFirst(T item) {
         if (front == 0) {
             int l = items.length;
@@ -39,6 +40,7 @@ public class ArrayDeque<T> {
     /**
      * Adds an item of type T to the back of the deque.
      */
+    @Override
     public void addLast(T item) {
         if (back == items.length) {
             resize(2 * items.length, front, front);
@@ -50,6 +52,7 @@ public class ArrayDeque<T> {
     /**
      * Returns true if deque is empty, false otherwise.
      */
+    @Override
     public boolean isEmpty() {
         return front == back;
     }
@@ -57,6 +60,7 @@ public class ArrayDeque<T> {
     /**
      * Returns the number of items in the deque. (Constant time)
      */
+    @Override
     public int size() {
         return back - front;
     }
@@ -64,6 +68,7 @@ public class ArrayDeque<T> {
     /**
      * Prints the items in the deque from first to last, separated by a space.
      */
+    @Override
     public void printDeque() {
         for (int i = front; i < back; ++i) {
             System.out.print(items[i] + " ");
@@ -86,6 +91,7 @@ public class ArrayDeque<T> {
     /**
      * Removes and returns the item at the front of the deque. If no such item exists, returns null.
      */
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -100,6 +106,7 @@ public class ArrayDeque<T> {
     /**
      * Removes and returns the item at the back of the deque. If no such item exists, returns null.
      */
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -115,6 +122,7 @@ public class ArrayDeque<T> {
      * Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
      * If no such item exists, returns null. Must not alter the deque!
      */
+    @Override
     public T get(int index) {
         if (isEmpty()) {
             return null;
