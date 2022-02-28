@@ -125,9 +125,10 @@ public class IntList {
      * read or understand this method.
      */
     public boolean equals(Object x) {
-        if (!(x instanceof IntList L)) {
+        if (!(x instanceof IntList)) {
             return false;
         }
+        IntList L = (IntList) x;
         IntList p;
 
         for (p = this; p != null && L != null; p = p.rest, L = L.rest) {
@@ -135,7 +136,10 @@ public class IntList {
                 return false;
             }
         }
-        return p == null && L == null;
+        if (p != null || L != null) {
+            return false;
+        }
+        return true;
     }
 
     /**
